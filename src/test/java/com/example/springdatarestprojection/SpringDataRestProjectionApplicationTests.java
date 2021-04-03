@@ -34,4 +34,29 @@ class SpringDataRestProjectionApplicationTests {
                .andDo(print());
     }
 
+    @Test
+    @SneakyThrows
+    void getOnePerson_streetIsNotIncluded() {
+
+        mockMvc.perform(get("/persons/2"))
+               .andExpect(jsonPath("name").value("Alice"))
+               .andExpect(jsonPath("address").doesNotExist())
+               .andExpect(jsonPath("_links.address").exists())
+               .andExpect(status().isOk())
+               .andDo(print());
+    }
+
+    @Test
+    @SneakyThrows
+    void getOnePersonWithProjection_streetIsIncluded() {
+
+        mockMvc.perform(get("/persons/2?projection=includeAddress"))
+               .andExpect(jsonPath("name").value("Alice"))
+               .andExpect(jsonPath("address").exists())
+               .andExpect(jsonPath("address.street").value("Secret Street"))
+               .andExpect(jsonPath("_links.address").exists())
+               .andExpect(status().isOk())
+               .andDo(print());
+    }
+
 }
