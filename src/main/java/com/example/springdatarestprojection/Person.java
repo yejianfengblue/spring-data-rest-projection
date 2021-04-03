@@ -21,7 +21,7 @@ public class Person {
     @EqualsAndHashCode.Include
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Address address;
 
     public Person(String name) {

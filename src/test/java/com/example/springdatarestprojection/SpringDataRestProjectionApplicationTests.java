@@ -28,7 +28,8 @@ class SpringDataRestProjectionApplicationTests {
                .andExpect(jsonPath("_embedded.persons").isArray())
                .andExpect(jsonPath("_embedded.persons", hasSize(1)))
                .andExpect(jsonPath("_embedded.persons[0].name").value("Alice"))
-               .andExpect(jsonPath("_embedded.persons[0].address.street").value("Secret Street"))
+               .andExpect(jsonPath("_embedded.persons[0].address").doesNotExist())
+               .andExpect(jsonPath("_embedded.persons[0]._links.address").exists())
                .andExpect(status().isOk())
                .andDo(print());
     }
